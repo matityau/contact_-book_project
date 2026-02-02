@@ -32,6 +32,9 @@ while True:
     elif choose == "6":
         edit_email(contacts)
 
+    elif choose == "7":
+        export_contact_file(contacts)
+
     elif choose == "0":
         print("Goodbye!")
         break

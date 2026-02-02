@@ -1,3 +1,4 @@
+import csv
 import json
 
 
@@ -102,6 +103,14 @@ def edit_email(contacts):
     else:
         print(f"{person} does not exist. Please add the contact first.")
 
+def export_contact_file(contacts):
+        with open("contact.csv","w", newline="") as file:
+            writer = csv.writer(file)
+
+            for name, info in contacts.items():
+                writer.writerow([name, info.get('phone'), info.get('email')])
+
+        return "contacts.csv"
 
 
 
