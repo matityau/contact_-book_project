@@ -1,4 +1,5 @@
 from function import *
+from uli import  *
 import os
 
 
@@ -6,106 +7,31 @@ if not os.path.exists("contacts.json"):
     with open("contacts.json", "w") as f:
         json.dump({}, f)
 
+contacts = load_contacts()
 while True:
-    print("""
-                contact book program:
-            For search contact press ------(1)
-            For add a new contact press ---(2)
-            For remove contacts press------(3)
-            For edit contacts press -------(4)
-            For view all contacts press----(5)
-            For add a e-Mail press---------(6)
-            
-            For exit press ----------------(0)""")
+
+    print(uli())
 
     choose = input("Please choose your choice: ")
 
     if choose == "1":
-        contacts = load_contacts()
-        person = enter_contact_details()
-
-        if person in contacts:
-            contact_info = contacts[person]
-            print(f"Name: {person}")
-            print(f"Phone: {contact_info.get('phone', '')}")
-            print(f"Email: {contact_info.get('email', '')}")
-        else:
-            print(f"{person} does not exist")
+        search_contact(contacts)
 
     elif choose == "2":
-        contacts = load_contacts()
-        person = enter_contact_details()
-
-        if person in contacts:
-            print("Contact already exists")
-        else:
-            phone = input("Please enter the contact phone: ")
-            check = check_phone(phone,contacts)
-            if check:
-                print(f'Phone {phone} already exists')
-
-            else:
-                contacts[person] = {"phone": phone, "email": ""}
-                save_contacts(contacts)
-                print(f"{person} added successfully")
+        add_new_contact(contacts)
 
     elif choose == "3":
-        contacts = load_contacts()
-        person = enter_contact_details()
+        remove_contact(contacts)
 
-        if person in contacts:
-            del contacts[person]
-            save_contacts(contacts)
-            print(f"{person} removed successfully")
-        else:
-            print(f"{person} does not exist")
+    elif choose == "4":
+        edit_contact(contacts)
 
-    elif choose == "4":  # Edit contact
-        contacts = load_contacts()
-        person = enter_contact_details()
+    elif choose == "5":
+       print_all_contacts(contacts)
 
-        if person in contacts:
-            print(f"Current info for {person}:")
-            print(f"Phone: {contacts[person].get('phone', 'N/A')}")
-            print(f"Email: {contacts[person].get('email', 'N/A')}")
+    elif choose == "6":
+        edit_email(contacts)
 
-            new_phone = input("Enter new phone (press Enter to keep current): ")
-            new_email = input("Enter new email (press Enter to keep current): ")
-
-            if new_phone:
-                contacts[person]["phone"] = new_phone
-            if new_email:
-                contacts[person]["email"] = new_email
-
-            save_contacts(contacts)
-            print(f"{person} updated successfully")
-        else:
-            print("Contact does not exist")
-
-    elif choose == "5":  # View all contacts
-        contacts = load_contacts()
-        if contacts:
-            print("\n--- All Contacts ---")
-            for name, info in contacts.items():
-                print(f"Name: {name}")
-                print(f"Phone: {info.get('phone', 'N/A')}")
-                print(f"Email: {info.get('email', 'N/A')}")
-                print("-" * 20)
-        else:
-            print("No contacts found")
-
-    elif choose == "6":  # Add email
-        contacts = load_contacts()
-        person = enter_contact_details()
-
-        if person in contacts:
-            email = input("Please enter the email: ")
-            contacts[person]["email"] = email
-            save_contacts(contacts)
-            print(f"Email added for {person}")
-        else:
-            print(f"{person} does not exist. Please add the contact first.")
-
-    elif choose == "0":  # Exit
+    elif choose == "0":
         print("Goodbye!")
         break
