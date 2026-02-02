@@ -7,6 +7,7 @@ def uli():
            For edit contacts press -------(4)
            For view all contacts press----(5)
            For add a e-Mail press---------(6)
+           For export contacts press------(7)
 
            For exit press ----------------(0)""")
 
