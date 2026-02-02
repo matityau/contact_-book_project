@@ -1,5 +1,5 @@
 from function import *
-
+import os
 
 
 if not os.path.exists("contacts.json"):
@@ -20,43 +20,38 @@ while True:
 
     choose = input("Please choose your choice: ")
 
-    if choose == "1":  # Search contact
+    if choose == "1":
         contacts = load_contacts()
-        first_name = input("Please enter the first name: ")
-        last_name = input("Please enter the last name: ")
-        person = first_name + " " + last_name
+        person = enter_contact_details()
 
         if person in contacts:
             contact_info = contacts[person]
             print(f"Name: {person}")
-            print(f"Phone: {contact_info.get('phone', 'N/A')}")
-            print(f"Email: {contact_info.get('email', 'N/A')}")
+            print(f"Phone: {contact_info.get('phone', '')}")
+            print(f"Email: {contact_info.get('email', '')}")
         else:
             print(f"{person} does not exist")
 
-    elif choose == "2":  # Add contact
+    elif choose == "2":
         contacts = load_contacts()
-        first_name = input("Please enter the first name: ")
-        last_name = input("Please enter the last name: ")
-        person = first_name + " " + last_name
+        person = enter_contact_details()
 
         if person in contacts:
             print("Contact already exists")
         else:
             phone = input("Please enter the contact phone: ")
-            if check_phone(phone) == True:
-                print(f"Phone {phone} already exists for {name}")
+            check = check_phone(phone,contacts)
+            if check:
+                print(f'Phone {phone} already exists')
 
             else:
                 contacts[person] = {"phone": phone, "email": ""}
                 save_contacts(contacts)
                 print(f"{person} added successfully")
 
-    elif choose == "3":  # Remove contact
+    elif choose == "3":
         contacts = load_contacts()
-        first_name = input("Please enter the first name: ")
-        last_name = input("Please enter the last name: ")
-        person = first_name + " " + last_name
+        person = enter_contact_details()
 
         if person in contacts:
             del contacts[person]
@@ -67,9 +62,7 @@ while True:
 
     elif choose == "4":  # Edit contact
         contacts = load_contacts()
-        first_name = input("Please enter the first name: ")
-        last_name = input("Please enter the last name: ")
-        person = first_name + " " + last_name
+        person = enter_contact_details()
 
         if person in contacts:
             print(f"Current info for {person}:")
@@ -103,9 +96,7 @@ while True:
 
     elif choose == "6":  # Add email
         contacts = load_contacts()
-        first_name = input("Please enter the first name: ")
-        last_name = input("Please enter the last name: ")
-        person = first_name + " " + last_name
+        person = enter_contact_details()
 
         if person in contacts:
             email = input("Please enter the email: ")
